@@ -40,11 +40,6 @@ form.addEventListener('submit', (e) => {
             const name = json.guild.name;
             const id = json.guild.id;
             const icon = "https://cdn.discordapp.com/icons/" + id + '/' + json.guild.icon;
-            if (json.inviter) {
-                const username = json.inviter.username;
-                const tag = json.inviter.discriminator;
-                const inviterId = json.inviter.id;
-            }
             errorEl.innerHTML = '';
             nameEl.setAttribute('href', 'https://discord.gg/' + code);
             nameEl.innerHTML = name + " (" + id + ")";
@@ -52,6 +47,9 @@ form.addEventListener('submit', (e) => {
             onlineEl.innerHTML = online + ' online';
             membersEl.innerHTML = members + ' members';
             if (json.inviter) {
+                const username = json.inviter.username;
+                const tag = json.inviter.discriminator;
+                const inviterId = json.inviter.id;
                 invitedByEl.innerHTML = "Invited by @" + username + "#" + tag + " (" + inviterId + ")"
             } else {
                 invitedByEl.innerHTML = ""
