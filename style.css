@@ -1,0 +1,28 @@
+#error {
+    color: red;
+}
+
+* {
+    font-family: 'Balsamiq Sans', cursive;
+    color: white;
+    box-shadow: none;
+}
+
+#submit, #inputText {
+    background-color: transparent;
+    border: 2px solid white;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#inputText {
+    width: 200px;
+}
+
+#inputText::placeholder {
+    color: white;
+}
+
+body {
+    background-color: #2C2F33;
+}
