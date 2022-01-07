@@ -7,6 +7,9 @@ const onlineEl = document.getElementById('online');
 const membersEl = document.getElementById('members');
 const invitedByEl = document.getElementById('invitedby');
 
+let currentQuery = '';
+let lastFetched = 0;
+
 function getCode(input) {
 	input = input.replace(/^https?:\/\//, '');
 	let ggMatch = /^discord\.gg\/([\w-]+)$/i.exec(input);
@@ -23,13 +26,16 @@ function getCode(input) {
 form.addEventListener('submit', async e => {
 	e.preventDefault();
 	let invite = getCode(text.value.trim());
+	if (currentQuery == invite && Date.now() - lastFetched < 1000 * 10) return;
 	if (!invite) {
-		errorEl.innerHTML = 'Invalid input';
+		errorEl.innerHTML = text.value.trim() ? 'Invalid input' : '';
 		clear();
 		return;
 	}
 
 	try {
+		currentQuery = invite;
+		lastFetched = Date.now();
 		let res = await fetch(
 			`https://discord.com/api/v6/invites/${invite}?with_counts=true`,
 		);
