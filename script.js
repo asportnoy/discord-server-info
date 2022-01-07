@@ -9,17 +9,11 @@ const invitedByEl = document.getElementById('invitedby');
 
 function getCode(input) {
 	input = input.replace(/^https?:\/\//, '');
-	try {
-		let ggMatch = /discord\.gg\/(\w+)/i.exec(input);
-		if (ggMatch) return ggMatch[1];
-		let comMatch = /(?:discord|discordapp)\.com\/invite\/(\w+)/i.exec(
-			input,
-		);
-		if (comMatch) return comMatch[1];
-		return null;
-	} catch (e) {
-		return input;
-	}
+	let ggMatch = /discord\.gg\/([\w-]+)/i.exec(input);
+	if (ggMatch) return ggMatch[1];
+	let comMatch = /(?:discord|discordapp)\.com\/invite\/([\w-]+)/i.exec(input);
+	if (comMatch) return comMatch[1];
+	return input;
 }
 
 form.addEventListener('submit', async e => {
