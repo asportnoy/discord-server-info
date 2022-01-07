@@ -25,6 +25,7 @@ form.addEventListener('submit', async e => {
 	let invite = getCode(text.value.trim());
 	if (!invite) {
 		errorEl.innerHTML = 'Invalid input';
+		clear();
 		return;
 	}
 
@@ -32,6 +33,14 @@ form.addEventListener('submit', async e => {
 		let res = await fetch(
 			`https://discord.com/api/v6/invites/${invite}?with_counts=true`,
 		);
+		if (!res.ok) {
+			errorEl.innerHTML =
+				res.status == 404
+					? 'Unknown invite'
+					: `Something went wrong: ${res.status} ${res.statusText}`;
+			clear();
+			return;
+		}
 		let json = await res.json();
 		const members = json.approximate_member_count;
 		const online = json.approximate_presence_count;
@@ -55,7 +64,16 @@ form.addEventListener('submit', async e => {
 		}
 	} catch (e) {
 		console.log(e);
-		errorEl.innerHTML = 'Invite not found';
+		errorEl.innerHTML = 'Something went wrong';
+		clear();
 		return;
 	}
 });
+
+function clear() {
+	nameEl.innerHTML = '';
+	iconEl.removeAttribute('src', '');
+	onlineEl.innerHTML = '';
+	membersEl.innerHTML = '';
+	invitedByEl.innerHTML = '';
+}
